@@ -64,6 +64,18 @@ d.con <- read.csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19
 d.rec <- read.csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"))
 # - Death
 d.dea <- read.csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"))
+
+d.con$Province.State<-as.factor(d.con$Province.State)
+d.con$Country.Region<-as.factor(d.con$Country.Region)
+
+d.rec$Province.State<-as.factor(d.rec$Province.State)
+d.rec$Country.Region<-as.factor(d.rec$Country.Region)
+
+d.dea$Province.State<-as.factor(d.dea$Province.State)
+d.dea$Country.Region<-as.factor(d.dea$Country.Region)
+
+
+
 # - Confirmed cases in long format
 d.con.long <- reshape(data      = d.con,
                       varying   = names(d.con)[5:ncol(d.con)],
@@ -146,6 +158,10 @@ coronavirus <- rbind(d.con.daily.l, d.rec.daily.l, d.dea.daily.l)
 #_________________________________________________________Data 5 population size
 # Fonte: https://data.worldbank.org/indicator/SP.POP.TOTL
 d.pop <- read.csv(url("https://raw.githubusercontent.com/grequena/coronavirusBR/master/popsize.csv"), sep = ';', header = TRUE)
+
+##
+d.pop$Country.Name<-as.factor(d.pop$Country.Name)
+
 # - Select only countries in coronavirus data
 d.pop <- d.pop %>% 
   dplyr::filter(Country.Name %in% levels(coronavirus$Country.Region)) %>% 
